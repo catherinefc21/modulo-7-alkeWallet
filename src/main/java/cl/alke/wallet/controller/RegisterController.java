@@ -1,7 +1,9 @@
 package cl.alke.wallet.controller;
 
+import cl.alke.wallet.dto.UserRegisterDto;
 import cl.alke.wallet.model.User;
 import cl.alke.wallet.service.UserService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +20,18 @@ public class RegisterController {
         this.userService = userService;
     }
 
+    @ModelAttribute("User")
+    public UserRegisterDto newUserRegisterDto(){
+        return new UserRegisterDto();
+    }
+    @GetMapping
+    public String registerForm(){
+     return "register";
+    }
+
     @PostMapping
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        User createdUser = userService.createUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+    public String userRegister(@ModelAttribute("usuario") UserRegisterDto registerDto){
+        userService.createUser(registerDto);
+        return "redirect:/register?exit";
     }
 }

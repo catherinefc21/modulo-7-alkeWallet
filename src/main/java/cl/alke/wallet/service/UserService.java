@@ -1,15 +1,15 @@
 package cl.alke.wallet.service;
 
+import cl.alke.wallet.dto.UserRegisterDto;
 import cl.alke.wallet.model.User;
-import cl.alke.wallet.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
-@Service
-public class UserService {
+public interface UserService {
 
-    private final UserRepository userRepository;
+    public User createUser(UserRegisterDto userRegisterDto);
+
+}
+
+    /*private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -27,4 +27,4 @@ public class UserService {
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
-}
+}*/
