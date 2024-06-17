@@ -1,4 +1,4 @@
-package cl.alke.wallet.dto;
+package cl.alke.wallet.controller.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,26 +11,18 @@ public class UserRegisterDto {
     private String userName;
     private String email;
     private String password;
-    private double moneyBalance;
 
-    public UserRegisterDto(Long userId, String userName, String email, String password, double moneyBalance) {
+    public UserRegisterDto(Long userId, String userName, String email, String password) {
         this.userId = userId;
         this.userName = userName;
         this.email = email;
         this.password = password;
-        this.moneyBalance = moneyBalance;
     }
 
-    public UserRegisterDto(String userName, String email, String password, double moneyBalance) {
+    public UserRegisterDto(String userName, String email, String password) {
         this.userName = userName;
         this.email = email;
         this.password = password;
-        this.moneyBalance = moneyBalance;
-    }
-
-    public UserRegisterDto(String email) {
-        super();
-        this.email = email;
     }
 
     public UserRegisterDto() {

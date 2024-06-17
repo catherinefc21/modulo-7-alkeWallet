@@ -11,19 +11,22 @@ import lombok.Setter;
 public class Rol {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
-    private String userName;
+    private Long id;
 
-    public Rol(Long userId, String userName) {
-        this.userId = userId;
-        this.userName = userName;
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    public Rol(Long id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Rol() {
-    super();
+        super();
     }
 
-    public Rol(String userName) {
-        this.userName = userName;
+    public Rol(String name) {
+        this.name = name;
     }
+
 }
