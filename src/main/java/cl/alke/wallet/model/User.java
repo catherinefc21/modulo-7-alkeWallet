@@ -4,7 +4,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
 
 @Entity
 @Table(name = "usuario")
@@ -32,25 +36,30 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "rol_id", referencedColumnName = "id"))
     private Collection<Rol> roles;
 
+    @Column(name = "balance", nullable = false)
+    private BigDecimal balance;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Card> cards = new ArrayList<>();
+
     public User(Long userId, String userName, String email, String password, Collection<Rol> roles) {
-        super();
         this.userId = userId;
         this.userName = userName;
         this.email = email;
         this.password = password;
         this.roles = roles;
+        this.balance = BigDecimal.ZERO;
     }
 
     public User(String userName, String email, String password, Collection<Rol> roles) {
-        super();
         this.userName = userName;
         this.email = email;
         this.password = password;
         this.roles = roles;
+        this.balance = BigDecimal.ZERO;
     }
 
     public User() {
-
+        this.balance = BigDecimal.ZERO;
     }
-
 }

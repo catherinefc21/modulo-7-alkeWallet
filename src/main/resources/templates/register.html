@@ -27,11 +27,8 @@
                 Todos tus movimientos de dinero en un solo lugar
             </p>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-5">
             <div class="bg-light rounded-3 p-5 shadow">
-                <div th:if=${param.success}>
-                    <div class="alert alert-info">El registro ha sido existoso</div>
-                </div>
                 <form th:action="@{/register}" method="post" th:object="${user}">
                     <h3 class="text-secondary text-center mb-4">Regístrate</h3>
                     <div class="mb-3">
@@ -68,11 +65,14 @@
                         />
                     </div>
                     <div class="form-group mt-4 mb-3">
-                        <input type="submit" class="btn btn-primary" value="Enviar">
+                        <input type="submit" class=" form-control btn btn-primary" value="Enviar">
                     </div>
                 </form>
-                <div>
+                <div class="form-group text-center mb-3">
                     <span>Si ya estás registrado <a th:href="@{/login}">Inicia sesión aquí</a></span>
+                </div>
+                <div th:if=${param.success} class="text-center">
+                    <div class="alert alert-success"><strong>¡El registro ha sido existoso!</strong></div>
                 </div>
             </div>
         </div>
