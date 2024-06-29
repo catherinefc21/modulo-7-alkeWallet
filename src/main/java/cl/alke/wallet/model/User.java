@@ -4,11 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 
 @Entity
 @Table(name = "usuario")
@@ -34,32 +31,29 @@ public class User {
             name = "usuario_role",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "userId"),
             inverseJoinColumns = @JoinColumn(name = "rol_id", referencedColumnName = "id"))
-    private Collection<Rol> roles;
+    private List<Rol> roles;
 
-    @Column(name = "balance", nullable = false)
-    private BigDecimal balance;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private WalletAccount walletAccount;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Card> cards = new ArrayList<>();
-
-    public User(Long userId, String userName, String email, String password, Collection<Rol> roles) {
+    public void setRoles(List<Rol> roles) {
+        this.roles = roles;
+    }
+    public User(Long userId, String userName, String email, String password, List<Rol> roles) {
         this.userId = userId;
         this.userName = userName;
         this.email = email;
         this.password = password;
         this.roles = roles;
-        this.balance = BigDecimal.ZERO;
     }
 
-    public User(String userName, String email, String password, Collection<Rol> roles) {
+    public User(String userName, String email, String password, List<Rol> roles) {
         this.userName = userName;
         this.email = email;
         this.password = password;
         this.roles = roles;
-        this.balance = BigDecimal.ZERO;
     }
 
     public User() {
-        this.balance = BigDecimal.ZERO;
     }
 }
