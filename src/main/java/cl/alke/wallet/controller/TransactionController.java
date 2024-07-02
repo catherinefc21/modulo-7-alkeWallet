@@ -7,6 +7,9 @@ import cl.alke.wallet.service.FrequentWalletAccountService;
 import cl.alke.wallet.service.TransactionService;
 import cl.alke.wallet.service.UserService;
 import cl.alke.wallet.service.WalletAccountService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,30 +22,49 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Controlador para manejar las operaciones de depósitos y retiros en la Wallet.
  */
-
 @Controller
+@Tag(name = "Transaction Controller", description = "Controlador de transacciones")
 public class TransactionController {
 
     @Autowired
     private TransactionService transactionService;
+
     @Autowired
     private WalletAccountService walletAccountService;
+
     @Autowired
     private CardService cardService;
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private FrequentWalletAccountService frequentWalletAccountService;
+
     @Autowired
     private UserService userService;
 
+    /**
+     * Lista todas las transacciones en las que el usuario autenticado tiene participación.
+     *
+     * @param model Modelo de Spring para pasar datos a la vista.
+     * @return Nombre de la plantilla Thymeleaf a renderizar.
+     */
+    @Operation(summary = "Listar todas las transacciones en las que el usuario autenticado tiene participación")
     @GetMapping("/transactions")
     public String listTransactions(Model model) {
-        model.addAttribute("transactions", transactionService.findAllTransactions());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            User user = userRepository.findByEmail(userDetails.getUsername());
+            List<Transaction> transactions = transactionService.findAllTransactionsByUser(user);
+            model.addAttribute("transactions", transactions);
+        }
         return "transactions";
     }
 
@@ -52,7 +74,7 @@ public class TransactionController {
      * @param model Modelo de Spring para pasar datos a la vista.
      * @return Nombre de la plantilla Thymeleaf a renderizar.
      */
-
+    @Operation(summary = "Mostrar formulario de depósito")
     @GetMapping("/deposit")
     public String showDepositForm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -73,11 +95,12 @@ public class TransactionController {
      * @param model      Modelo de Spring para pasar datos a la vista.
      * @return Nombre de la plantilla Thymeleaf a renderizar.
      */
-
+    @Operation(summary = "Depositar dinero en la Wallet")
     @PostMapping("/deposit")
-    public String deposit(@RequestParam("cardNumber") String cardNumber,
-                          @RequestParam("amount") BigDecimal amount,
-                          Model model) {
+    public String deposit(
+            @Parameter(description = "Número de la tarjeta desde la cual se va a realizar el depósito") @RequestParam("cardNumber") String cardNumber,
+            @Parameter(description = "Monto a depositar") @RequestParam("amount") BigDecimal amount,
+            Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -107,6 +130,13 @@ public class TransactionController {
         return "depositForm";
     }
 
+    /**
+     * Muestra el formulario para realizar un retiro.
+     *
+     * @param model Modelo de Spring para pasar datos a la vista.
+     * @return Nombre de la plantilla Thymeleaf a renderizar.
+     */
+    @Operation(summary = "Mostrar formulario de retiro")
     @GetMapping("/withdraw")
     public String showWithdrawForm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -119,14 +149,19 @@ public class TransactionController {
     }
 
     /**
-     * Muestra el formulario para realizar un retiro.
+     * Procesa la solicitud de retiro de dinero de la billetera.
      *
-     * @param model Modelo de Spring para pasar datos a la vista.
+     * @param cardNumber Número de la tarjeta a la cual se va a realizar el retiro.
+     * @param amount     Monto a retirar.
+     * @param model      Modelo de Spring para pasar datos a la vista.
      * @return Nombre de la plantilla Thymeleaf a renderizar.
      */
-
+    @Operation(summary = "Retirar dinero de la Wallet")
     @PostMapping("/withdraw")
-    public String withdraw(@RequestParam("cardNumber") String cardNumber, @RequestParam("amount") BigDecimal amount, Model model) {
+    public String withdraw(
+            @Parameter(description = "Número de la tarjeta a la cual se va a realizar el retiro") @RequestParam("cardNumber") String cardNumber,
+            @Parameter(description = "Monto a retirar") @RequestParam("amount") BigDecimal amount,
+            Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -158,6 +193,7 @@ public class TransactionController {
      * @param model Modelo de Spring para pasar datos a la vista.
      * @return Nombre de la plantilla Thymeleaf a renderizar.
      */
+    @Operation(summary = "Mostrar formulario para agregar cuenta frecuente")
     @GetMapping("/add-frequent-account")
     public String showAddFrequentAccountForm(Model model) {
         model.addAttribute("frequentWalletAccount", new FrequentWalletAccount());
@@ -172,11 +208,12 @@ public class TransactionController {
      * @param model         Modelo de Spring para pasar datos a la vista.
      * @return Nombre de la plantilla Thymeleaf a renderizar.
      */
-
+    @Operation(summary = "Agregar cuenta frecuente")
     @PostMapping("/add-frequent-account")
-    public String addFrequentAccount(@RequestParam("accountNumber") String accountNumber,
-                                     @RequestParam("alias") String alias,
-                                     Model model) {
+    public String addFrequentAccount(
+            @Parameter(description = "Número de la cuenta frecuente") @RequestParam("accountNumber") String accountNumber,
+            @Parameter(description = "Alias para la cuenta frecuente") @RequestParam("alias") String alias,
+            Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -196,7 +233,7 @@ public class TransactionController {
      * @param model Modelo de Spring para pasar datos a la vista.
      * @return Nombre de la plantilla Thymeleaf a renderizar.
      */
-
+    @Operation(summary = "Mostrar formulario de transferencia")
     @GetMapping("/transfer")
     public String showTransferForm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -217,10 +254,12 @@ public class TransactionController {
      * @param model               Modelo de Spring para pasar datos a la vista.
      * @return Nombre de la plantilla Thymeleaf a renderizar.
      */
-
+    @Operation(summary = "Transferir dinero entre cuentas")
     @PostMapping("/transactions/transfer")
-    public String transfer(@RequestParam("targetAccountNumber") String targetAccountNumber,
-                           @RequestParam("amount") BigDecimal amount, Model model) {
+    public String transfer(
+            @Parameter(description = "Número de cuenta de destino") @RequestParam("targetAccountNumber") String targetAccountNumber,
+            @Parameter(description = "Monto a transferir") @RequestParam("amount") BigDecimal amount,
+            Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();

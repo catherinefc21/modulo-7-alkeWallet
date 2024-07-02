@@ -1,6 +1,7 @@
 package cl.alke.wallet.service.impl;
 
 import cl.alke.wallet.model.Transaction;
+import cl.alke.wallet.model.User;
 import cl.alke.wallet.repository.TransactionRepository;
 import cl.alke.wallet.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +22,9 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public List<Transaction> findAllTransactions() {
         return transactionRepository.findAll();
+    }
+    @Override
+    public List<Transaction> findAllTransactionsByUser(User user) {
+        return transactionRepository.findByUserParticipation(user);
     }
 }

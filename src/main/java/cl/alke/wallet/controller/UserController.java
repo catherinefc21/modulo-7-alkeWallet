@@ -4,6 +4,8 @@ import cl.alke.wallet.model.User;
 import cl.alke.wallet.model.WalletAccount;
 import cl.alke.wallet.service.UserService;
 import cl.alke.wallet.service.WalletAccountService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
 
 @Controller
+@Tag(name = "User Controller", description = "Controlador de usuarios")
 public class UserController {
 
 
@@ -22,11 +25,13 @@ public class UserController {
         this.userService = userService;
         this.walletAccountService = walletAccountService;
     }
-
+    @Operation(summary = "Login")
     @GetMapping("/login")
     public String login() {
         return "login";
     }
+
+    @Operation(summary = "Página de inicio")
     @GetMapping({"/","/menu"})
     public String inicialPage(Model model, Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {

@@ -50,6 +50,10 @@ AlkeWallet es una aplicación de billetera digital 💸 que permite a los usuari
 
 8. ¡Listo! Ya puedes empezar a usar AlkeWallet.
 
+## Documentación endpoints
+
+http://localhost:8080/swagger-ui/index.html
+
 ## App
 
 ### Página de Inicio

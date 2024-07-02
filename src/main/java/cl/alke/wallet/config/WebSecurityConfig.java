@@ -44,21 +44,30 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests()
-                .requestMatchers(
-                        "/register**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .and()
-                .logout()
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login?logout")
-                .permitAll();
+        http
+                .csrf(csrf -> csrf.disable()) // Desactivar CSRF
+                .authorizeRequests(authorizeRequests ->
+                        authorizeRequests
+                                .requestMatchers(
+                                        "/register**",
+                                        "/swagger-ui/**", // Actualizar para permitir el acceso a Swagger UI con springdoc-openapi
+                                        "/v3/api-docs/**" // Permitir el acceso a la definición de la API de OpenAPI
+                                ).permitAll()
+                                .anyRequest().authenticated()
+                )
+                .formLogin(formLogin ->
+                        formLogin
+                                .loginPage("/login")
+                                .permitAll()
+                )
+                .logout(logout ->
+                        logout
+                                .invalidateHttpSession(true)
+                                .clearAuthentication(true)
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                .logoutSuccessUrl("/login?logout")
+                                .permitAll()
+                );
 
         return http.build();
     }
