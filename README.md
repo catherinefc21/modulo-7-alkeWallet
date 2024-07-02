@@ -42,9 +42,11 @@ AlkeWallet es una aplicación de billetera digital 💸 que permite a los usuari
 6. Ejecuta el siguiente comando para correr el proyecto:
    ```sh
     mvn spring-boot:run
-    ```Abre tu navegador y entra a `http://localhost:8080`.
+    ```
+   
+7. Abre tu navegador y entra a `http://localhost:8080`.
 
-7. Regístrate en la aplicación.
+8. Regístrate en la aplicación.
 
 8. ¡Listo! Ya puedes empezar a usar AlkeWallet.
 
