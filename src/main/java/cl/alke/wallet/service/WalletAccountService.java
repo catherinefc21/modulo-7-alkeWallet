@@ -1,12 +1,12 @@
 package cl.alke.wallet.service;
 
-import cl.alke.wallet.model.User;
 import cl.alke.wallet.model.WalletAccount;
-import org.springframework.stereotype.Service;
+import cl.alke.wallet.model.User;
 
-@Service
 public interface WalletAccountService {
-
-    public WalletAccount createWalletAccountForUser(User user);
-    public WalletAccount getWalletAccountByUser(User user);
+    WalletAccount createWalletAccountForUser(User user);
+    WalletAccount getWalletAccountByUser(User user);
+    WalletAccount findByAccountNumber(String accountNumber);
+    void addWalletAccount(WalletAccount walletAccount);
 }
+

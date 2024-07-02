@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface WalletAccountRepository extends JpaRepository<WalletAccount, Long> {
     WalletAccount findByUser(User user);
+    WalletAccount findByAccountNumber(String accountNumber);
 }
-

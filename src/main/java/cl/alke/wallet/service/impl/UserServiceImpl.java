@@ -25,18 +25,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
     private final BCryptPasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final WalletAccountService walletAccountService;
 
+    @Autowired
     public UserServiceImpl(BCryptPasswordEncoder passwordEncoder, @Lazy UserRepository userRepository, WalletAccountService walletAccountService) {
-        super();
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.walletAccountService = walletAccountService;
     }
-
 
     @Override
     public User createUser(UserRegisterDto userRegisterDto) {
@@ -45,27 +43,21 @@ public class UserServiceImpl implements UserService {
         user.setEmail(userRegisterDto.getEmail());
         user.setPassword(passwordEncoder.encode(userRegisterDto.getPassword()));
 
-        // Crear una nueva lista de roles y agregar el rol a esa lista
         List<Rol> roles = new ArrayList<>();
         roles.add(new Rol("ROLE_USER"));
         user.setRoles(roles);
 
-        // Guardar el usuario primero
         user = userRepository.save(user);
 
-        // Crear una nueva cuenta wallet para el usuario
         WalletAccount walletAccount = new WalletAccount();
-        walletAccount.setAccountNumber(NumeroCuentaGenerator.generarNumeroCuenta()); // Generar número de cuenta automáticamente
-        walletAccount.setBalance(BigDecimal.ZERO); // Saldo inicial
-        walletAccount.setUser(user); // Asociar la cuenta wallet con el usuario
+        walletAccount.setAccountNumber(NumeroCuentaGenerator.generarNumeroCuenta());
+        walletAccount.setBalance(BigDecimal.ZERO);
+        walletAccount.setUser(user);
 
-        // Guardar la cuenta wallet asociada al usuario
         walletAccount = walletAccountService.createWalletAccountForUser(user);
 
-        // Asignar la cuenta wallet al usuario
         user.setWalletAccount(walletAccount);
 
-        // Actualizar el usuario con la cuenta wallet asociada
         return userRepository.save(user);
     }
 
@@ -91,5 +83,4 @@ public class UserServiceImpl implements UserService {
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
-
 }

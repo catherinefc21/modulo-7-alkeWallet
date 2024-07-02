@@ -44,4 +44,14 @@ public class WalletAccountServiceImpl implements WalletAccountService {
         // Buscar la cuenta wallet asociada al usuario
         return walletAccountRepository.findByUser(user);
     }
+
+    @Override
+    public WalletAccount findByAccountNumber(String accountNumber) {
+        return walletAccountRepository.findByAccountNumber(accountNumber);
+    }
+
+    @Override
+    public void addWalletAccount(WalletAccount walletAccount) {
+        walletAccountRepository.save(walletAccount);
+    }
 }

@@ -17,7 +17,7 @@ public class WalletAccount {
     private Long id;
 
     @Column(name = "account_number", nullable = false, unique = true)
-    private String AccountNumber;
+    private String accountNumber;
 
     @Column(name = "balance", nullable = false)
     private BigDecimal balance;
@@ -31,9 +31,8 @@ public class WalletAccount {
     }
 
     public WalletAccount(String accountNumber, BigDecimal balance, User user) {
-        AccountNumber = accountNumber;
+        this.accountNumber = accountNumber;
         this.balance = balance;
         this.user = user;
     }
 }
-

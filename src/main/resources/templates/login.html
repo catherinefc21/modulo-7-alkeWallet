@@ -30,11 +30,6 @@
         <div class="col-md-5">
             <div class="bg-light rounded-3 p-5 shadow">
                 <form th:action="@{/login}" method="post">
-                    <div th:if="${param.logout}">
-                        <div class="alert alert-success" role="alert">
-                            <strong>¡Haz cerrado sesión exitosamente!</strong>
-                        </div>
-                    </div>
                     <h3 class="text-secondary text-center mb-4">Inicio de Sesión</h3>
                     <div class="mb-3">
                         <label for="username" class="form-label">Email:</label>
@@ -69,6 +64,11 @@
                 <div th:if="${param.error}" class="text-center">
                     <div class="alert alert-danger" role="alert">
                         <strong>¡Error!</strong> Email o contraseña incorrectos.
+                    </div>
+                </div>
+                <div th:if="${param.logout}">
+                    <div class="alert alert-success text-center" role="alert">
+                        <strong>¡Haz cerrado sesión exitosamente!</strong>
                     </div>
                 </div>
             </div>

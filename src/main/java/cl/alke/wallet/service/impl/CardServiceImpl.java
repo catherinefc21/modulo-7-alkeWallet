@@ -1,6 +1,7 @@
 package cl.alke.wallet.service.impl;
 
 import cl.alke.wallet.model.Card;
+import cl.alke.wallet.model.User;
 import cl.alke.wallet.repository.CardRepository;
 import cl.alke.wallet.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,4 +39,10 @@ public class CardServiceImpl implements CardService {
     public void eliminarCard(Long id) {
         cardRepository.deleteById(id);
     }
+
+    @Override
+    public Card findByCardNumberAndUser(String cardNumber, User user) {
+        return cardRepository.findByCardNumberAndUser(cardNumber, user);
+    }
+
 }
