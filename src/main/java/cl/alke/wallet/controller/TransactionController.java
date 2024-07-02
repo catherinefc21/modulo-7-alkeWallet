@@ -20,6 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * Controlador para manejar las operaciones de depósitos y retiros en la Wallet.
+ */
+
 @Controller
 public class TransactionController {
 
@@ -42,6 +46,13 @@ public class TransactionController {
         return "transactions";
     }
 
+    /**
+     * Muestra el formulario para realizar un depósito.
+     *
+     * @param model Modelo de Spring para pasar datos a la vista.
+     * @return Nombre de la plantilla Thymeleaf a renderizar.
+     */
+
     @GetMapping("/deposit")
     public String showDepositForm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -53,6 +64,15 @@ public class TransactionController {
         model.addAttribute("selectedCard", new Card());
         return "depositForm";
     }
+
+    /**
+     * Procesa la solicitud de depósito de dinero en la billetera.
+     *
+     * @param cardNumber Número de la tarjeta desde la cual se va a realizar el depósito.
+     * @param amount     Monto a depositar.
+     * @param model      Modelo de Spring para pasar datos a la vista.
+     * @return Nombre de la plantilla Thymeleaf a renderizar.
+     */
 
     @PostMapping("/deposit")
     public String deposit(@RequestParam("cardNumber") String cardNumber,
@@ -98,6 +118,13 @@ public class TransactionController {
         return "withdrawForm";
     }
 
+    /**
+     * Muestra el formulario para realizar un retiro.
+     *
+     * @param model Modelo de Spring para pasar datos a la vista.
+     * @return Nombre de la plantilla Thymeleaf a renderizar.
+     */
+
     @PostMapping("/withdraw")
     public String withdraw(@RequestParam("cardNumber") String cardNumber, @RequestParam("amount") BigDecimal amount, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -125,11 +152,26 @@ public class TransactionController {
         return "withdrawForm";
     }
 
+    /**
+     * Muestra el formulario para agregar una cuenta frecuente.
+     *
+     * @param model Modelo de Spring para pasar datos a la vista.
+     * @return Nombre de la plantilla Thymeleaf a renderizar.
+     */
     @GetMapping("/add-frequent-account")
     public String showAddFrequentAccountForm(Model model) {
         model.addAttribute("frequentWalletAccount", new FrequentWalletAccount());
         return "addFrequentAccountForm";
     }
+
+    /**
+     * Procesa la solicitud para agregar una cuenta frecuente.
+     *
+     * @param accountNumber Número de la cuenta frecuente.
+     * @param alias         Alias para la cuenta frecuente.
+     * @param model         Modelo de Spring para pasar datos a la vista.
+     * @return Nombre de la plantilla Thymeleaf a renderizar.
+     */
 
     @PostMapping("/add-frequent-account")
     public String addFrequentAccount(@RequestParam("accountNumber") String accountNumber,
@@ -148,6 +190,13 @@ public class TransactionController {
         return "addFrequentAccountForm";
     }
 
+    /**
+     * Muestra el formulario para realizar una transferencia.
+     *
+     * @param model Modelo de Spring para pasar datos a la vista.
+     * @return Nombre de la plantilla Thymeleaf a renderizar.
+     */
+
     @GetMapping("/transfer")
     public String showTransferForm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -159,6 +208,15 @@ public class TransactionController {
         }
         return "transferForm";
     }
+
+    /**
+     * Procesa la solicitud de transferencia de dinero.
+     *
+     * @param targetAccountNumber Número de cuenta de destino.
+     * @param amount              Monto a transferir.
+     * @param model               Modelo de Spring para pasar datos a la vista.
+     * @return Nombre de la plantilla Thymeleaf a renderizar.
+     */
 
     @PostMapping("/transactions/transfer")
     public String transfer(@RequestParam("targetAccountNumber") String targetAccountNumber,
