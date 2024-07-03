@@ -23,11 +23,11 @@ AlkeWallet es una aplicación de billetera digital 💸 que permite a los usuari
 
 1. Clona el repositorio:
    ```sh
-   https://github.com/catherinefc21/modulo-6-alkeWallet.git
+   git remote set-url origin https://github.com/catherinefc21/modulo-7-alkeWallet.git
    ```
-2. Entra al directorio del proyecto:
+2. Entra al directorio del proyecto: 
    ```sh
-    cd modulo-6-alkeWallet
+    cd modulo-7-alkeWallet
     ```
 3. Crea una base de datos en MySQL llamada `alkewalletdb`.
 
