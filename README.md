@@ -1,4 +1,4 @@
-# AlkeWallet 🚀
+# AlkeWallet 2.0🚀
 
 ## Descripción
 
@@ -10,6 +10,7 @@ AlkeWallet es una aplicación de billetera digital 💸 que permite a los usuari
 - **Retirar Dinero**: Los usuarios pueden retirar dinero de su billetera digital a una cuenta bancaria.
 - **Transferir Dinero**: Los usuarios pueden transferir dinero a cuentas alkeWallet frecuentes guardadas.
 - **Revisar Transacciones**: Los usuarios pueden revisar todas sus transacciones.
+- **Conversión de Moneda**: Los usuarios pueden convertir su dinero a diferentes monedas.(Se añade conversión de moneda en tiempo real a USD con jquery y ajax)
 
 ## Configuración y Ejecución
 
@@ -56,12 +57,14 @@ http://localhost:8080/swagger-ui/index.html
 
 ## App
 
+### Menú
+![menu](assets/Captura11.JPG)
+### Conversión de moneda
+![conversion](assets/Captura10.JPG)
 ### Página de Inicio
 ![login](assets/Captura1.JPG)
 ### Registro
 ![register](assets/Captura8.JPG)
-### Menú
-![menu](assets/Captura2.JPG)
 ### Depositar Dinero
 ![deposit](assets/Captura3.JPG)
 ![withdraw](assets/Captura4.JPG)

@@ -10,6 +10,7 @@ import cl.alke.wallet.service.WalletAccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -256,6 +257,7 @@ public class TransactionController {
      */
     @Operation(summary = "Transferir dinero entre cuentas")
     @PostMapping("/transactions/transfer")
+    @Transactional
     public String transfer(
             @Parameter(description = "Número de cuenta de destino") @RequestParam("targetAccountNumber") String targetAccountNumber,
             @Parameter(description = "Monto a transferir") @RequestParam("amount") BigDecimal amount,

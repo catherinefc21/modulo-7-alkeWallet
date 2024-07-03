@@ -42,7 +42,7 @@
                 </div>
             </div>
             <hr/>
-            <div class="row text-center">
+            <div class="row text-center justify-content-center">
                 <div class="col-md-3">
                     <a th:href="@{/deposit}" class="btn btn-primary btn-lg d-flex flex-column align-items-center m-2">
                         <i class="bi bi-cash-stack"></i>
@@ -67,13 +67,20 @@
                         Mis tarjetas
                     </a>
                 </div>
+                <div class="col-md-3">
+                    <a th:href="@{/transactions}" class="btn btn-primary btn-lg d-flex flex-column align-items-center m-2">
+                        <i class="bi bi-arrow-left-right"></i>
+                       Ver Movimientos
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <a th:href="@{/currency-conversion}" class="btn btn-primary btn-lg d-flex flex-column align-items-center m-2">
+                        <i class="bi bi-currency-exchange"></i>
+                        Convertir Moneda
+                    </a>
+                </div>
             </div>
             <hr/>
-            <div class="d-flex justify-content-center align-items-center">
-                <a th:href="@{/transactions}" class="text-decoration-none fw-bold">
-                    Ver Últimos Movimientos
-                </a>
-            </div>
         </div>
     </div>
 </div>
